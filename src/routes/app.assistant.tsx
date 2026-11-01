@@ -49,7 +49,7 @@ function Assistant() {
     if (!Ctor) { setMsgs((m) => [...m, { from: "ai", text: "Voice input isn't supported in this browser." }]); return; }
     if (listening) { rec.current?.stop(); return; }
     const r = new Ctor(); r.lang = lang; r.interimResults = false;
-    r.onresult = (e) => send(e.results[0][0].transcript);
+    r.onresult = (e) => send(e.results[0]?.[0].transcript ?? "");
     r.onend = () => setListening(false);
     rec.current = r; r.start(); setListening(true);
   }
