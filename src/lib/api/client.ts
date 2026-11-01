@@ -1,10 +1,10 @@
 import axios from "axios";
 
 /** Single Axios instance. Backend URL comes from VITE_API_BASE_URL — never put secrets here. */
-export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "";
+export const API_BASE_URL = (import.meta.env["VITE_API_BASE_URL"] as string | undefined) ?? "";
 
 export const api = axios.create({
-  baseURL: API_BASE_URL || undefined,
+  ...(API_BASE_URL ? { baseURL: API_BASE_URL } : {}),
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });
