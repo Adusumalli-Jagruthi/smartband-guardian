@@ -9,8 +9,9 @@ export function useBand(userId?: string) {
   const session = useSessionUser();
   const id = userId ?? session?.id;
   const devices = useQuery({ queryKey: ["devices"], queryFn: deviceService.list, ...opts });
-  const latest = useQuery({ queryKey: ["latest", id], queryFn: () => sensorService.latest(id!), enabled: !!id, ...opts });
-  const gps = useQuery({ queryKey: ["gps", id], queryFn: () => gpsService.latest(id!), enabled: !!id, ...opts });
+  const valid = !!id && id !== "none";
+  const latest = useQuery({ queryKey: ["latest", id], queryFn: () => sensorService.latest(id!), enabled: valid, ...opts });
+  const gps = useQuery({ queryKey: ["gps", id], queryFn: () => gpsService.latest(id!), enabled: valid, ...opts });
 
   const device = devices.data?.find((d) => !id || d.assignedTo === id || !d.assignedTo) ?? null;
   const offline = !devices.isLoading && (devices.isError || !device || device.status !== "online");
