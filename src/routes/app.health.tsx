@@ -1,3 +1,4 @@
+import { requireRole } from "@/lib/session";
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Footprints, HeartPulse } from "lucide-react";
@@ -8,6 +9,7 @@ import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/health")({
+  beforeLoad: requireRole(["kid", "elderly"]),
   head: () => seo("Health & Activity", "Heart-rate and activity charts from the pulse sensor and MPU6050."),
   component: Health,
 });

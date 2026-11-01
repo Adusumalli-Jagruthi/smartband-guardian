@@ -1,3 +1,4 @@
+import { requireRole } from "@/lib/session";
 import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Footprints, HeartPulse, History, MapPin } from "lucide-react";
 import { useBand } from "@/hooks/use-band";
@@ -7,6 +8,7 @@ import { AlertList, DeviceStatus, HeartChart, SosButton } from "@/components/wid
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/kid")({
+  beforeLoad: requireRole(["kid"]),
   head: () => seo("School Kid Dashboard", "Heart rate, GPS, activity, SOS and history for school kids."),
   component: KidDashboard,
 });

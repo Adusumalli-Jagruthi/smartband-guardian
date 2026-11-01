@@ -4,12 +4,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pill, Plus } from "lucide-react";
 import { medicineService } from "@/lib/api/services";
 import { apiErrorMessage } from "@/lib/api/client";
-import { useSessionUser } from "@/lib/session";
+import { requireRole, useSessionUser } from "@/lib/session";
 import { PageHeader, Panel } from "@/components/states";
 import { MedicineList } from "@/components/widgets";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/medicines")({
+  beforeLoad: requireRole(["elderly"]),
   head: () => seo("Medicine Schedules", "Schedule medicines, get band reminders and confirm doses."),
   component: Medicines,
 });

@@ -1,3 +1,4 @@
+import { requireRole } from "@/lib/session";
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/guardian")({
+  beforeLoad: requireRole(["guardian"]),
   head: () => seo("Guardian Dashboard", "Monitor linked users' health, GPS location, medicine confirmations and alerts."),
   component: GuardianDashboard,
 });

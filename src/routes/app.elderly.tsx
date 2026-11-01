@@ -1,3 +1,4 @@
+import { requireRole } from "@/lib/session";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Activity, Bot, Footprints, HeartPulse, Pill } from "lucide-react";
 import { useBand } from "@/hooks/use-band";
@@ -6,6 +7,7 @@ import { DeviceStatus, HeartChart, MedicineList, SosButton } from "@/components/
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/elderly")({
+  beforeLoad: requireRole(["elderly"]),
   head: () => seo("Elderly Dashboard", "Heart rate, activity, medicine reminders, SOS and AI assistant for elderly users."),
   component: ElderlyDashboard,
 });

@@ -1,3 +1,4 @@
+import { requireRole } from "@/lib/session";
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ import { MapView } from "@/components/map-view";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/tracking")({
+  beforeLoad: requireRole(["kid", "elderly", "guardian"]),
   head: () => seo("GPS Tracking", "Live GPS location and route history from the SmartBand NEO-6M module."),
   component: Tracking,
 });

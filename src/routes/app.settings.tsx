@@ -4,12 +4,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link2, UserCircle } from "lucide-react";
 import { integrationService, userService } from "@/lib/api/services";
 import { API_BASE_URL, apiErrorMessage } from "@/lib/api/client";
-import { useSessionUser } from "@/lib/session";
+import { requireRole, useSessionUser } from "@/lib/session";
 import { PageHeader, Panel } from "@/components/states";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/settings")({
+  beforeLoad: requireRole(["kid", "elderly", "guardian"]),
   head: () => seo("Settings & Profile", "Manage your SmartBand profile, language and integrations."),
   component: Settings,
 });

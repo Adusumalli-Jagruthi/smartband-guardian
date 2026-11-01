@@ -1,3 +1,4 @@
+import { requireRole } from "@/lib/session";
 import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Bot, Loader2, Mic, MicOff, Send, Volume2 } from "lucide-react";
@@ -8,6 +9,7 @@ import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/assistant")({
+  beforeLoad: requireRole(["elderly"]),
   head: () => seo("AI Assistant", "Multilingual AI chat and voice assistant for SmartBand users."),
   component: Assistant,
 });
