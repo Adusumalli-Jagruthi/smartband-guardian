@@ -44,3 +44,18 @@ export interface LinkedUser {
 }
 
 export interface ChatReply { reply: string; language: string }
+
+export type IntegrationName = "thingspeak" | "telegram" | "ai";
+export type IntegrationStatus = "connected" | "disconnected" | "error" | "not_configured";
+
+/** Backend never returns full secrets — only masked hints like "••••a1b2". */
+export interface IntegrationConfig {
+  configured: boolean;
+  enabled: boolean;
+  status: IntegrationStatus;
+  fields: Record<string, string>;          // non-secret values (channelId, chatId, provider, model)
+  maskedSecrets: Record<string, string>;   // e.g. { readApiKey: "••••a1b2" }
+  lastSuccessAt?: string | null;           // last sync / last notification
+  lastMessage?: string | null;             // last test / notification result text
+}
+export interface IntegrationTestResult { ok: boolean; message: string; testedAt: string }

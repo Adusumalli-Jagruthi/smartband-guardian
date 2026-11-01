@@ -1,6 +1,6 @@
 import { api } from "./client";
 import type {
-  Alert, AuthResponse, ChatReply, Device, GpsPoint, LinkedUser, Medicine, Role, SensorReading, User,
+  Alert, AuthResponse, IntegrationConfig, IntegrationName, IntegrationTestResult, ChatReply, Device, GpsPoint, LinkedUser, Medicine, Role, SensorReading, User,
 } from "./types";
 
 const d = <T,>(p: Promise<{ data: T }>) => p.then((r) => r.data);
@@ -63,4 +63,14 @@ export const aiService = {
 export const integrationService = {
   get: () => d<Record<string, boolean>>(api.get("/integrations")),
   update: (body: Record<string, boolean>) => d<Record<string, boolean>>(api.put("/integrations", body)),
+};
+
+/** Integration credentials are sent once to the backend, encrypted there, and never read back in full. */
+export const integrationConfigService = {
+  get: (name: IntegrationName) => d<IntegrationConfig>(api.get(`/integrations/${name}/config`)),
+  /** Only include secret keys the user typed; omitted secrets keep their stored value. */
+  save: (name: IntegrationName, body: { enabled: boolean; fields: Record<string, string>; secrets: Record<string, string> }) =>
+    d<IntegrationConfig>(api.put(`/integrations/${name}/config`, body)),
+  remove: (name: IntegrationName) => d<void>(api.delete(`/integrations/${name}/config`)),
+  test: (name: IntegrationName) => d<IntegrationTestResult>(api.post(`/integrations/${name}/test`)),
 };
