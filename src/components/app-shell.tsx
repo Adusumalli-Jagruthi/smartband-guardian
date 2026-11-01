@@ -2,7 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  Activity, Bell, Bot, Cpu, HeartPulse, LayoutDashboard, LogOut, MapPin, Menu, Pill, ShieldCheck, UserCircle, X,
+  Activity, Bell, Bot, Cpu, HeartPulse, LayoutDashboard, LogOut, MapPin, Menu, Pill, Plug, ShieldCheck, UserCircle, X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Role } from "@/lib/api/types";
@@ -34,6 +34,7 @@ export const roleNav: Record<Role, Item[]> = {
     { to: "/app/tracking", label: "GPS Tracking", icon: MapPin },
     { to: "/app/alerts", label: "Emergency Alerts", icon: Bell },
     { to: "/app/devices", label: "Device Status", icon: Cpu },
+    { to: "/app/integrations", label: "Integrations", icon: Plug },
     { to: "/app/settings", label: "Profile", icon: UserCircle },
   ],
 };
