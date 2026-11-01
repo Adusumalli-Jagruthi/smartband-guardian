@@ -29,6 +29,6 @@ api.interceptors.response.use(
 
 export function apiErrorMessage(e: unknown): string {
   const err = e as { response?: { data?: { message?: string } }; message?: string };
-  if (!API_BASE_URL) return "Backend not configured (set VITE_API_BASE_URL).";
+  if (!API_BASE_URL && !err?.response?.data?.message) return "Backend not configured (set VITE_API_BASE_URL).";
   return err?.response?.data?.message ?? err?.message ?? "Request failed";
 }

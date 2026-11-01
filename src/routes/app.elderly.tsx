@@ -1,11 +1,13 @@
+import { requireRole } from "@/lib/session";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Activity, Bot, Footprints, HeartPulse, Pill } from "lucide-react";
 import { useBand } from "@/hooks/use-band";
-import { Metric, PageHeader, Panel } from "@/components/states";
+import { Metric, PageHeader, Panel, StatusPill } from "@/components/states";
 import { DeviceStatus, HeartChart, MedicineList, SosButton } from "@/components/widgets";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/elderly")({
+  beforeLoad: requireRole(["elderly"]),
   head: () => seo("Elderly Dashboard", "Heart rate, activity, medicine reminders, SOS and AI assistant for elderly users."),
   component: ElderlyDashboard,
 });
@@ -15,7 +17,7 @@ function ElderlyDashboard() {
   const r = b.reading;
   return (
     <>
-      <PageHeader title="Elderly Dashboard" subtitle="Your health, reminders and help — in one place" />
+      <PageHeader title={`Hello${b.session ? `, ${b.session.name.split(" ")[0]}` : ""}`} subtitle="Your health, reminders and help — in one place" action={<StatusPill offline={b.offline} hasData={!!r} loading={b.loading} />} />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Metric icon={HeartPulse} label="Heart rate" value={r?.heartRate} unit="BPM" loading={b.loading} offline={b.offline} />
         <Metric icon={Footprints} label="Steps today" value={r?.steps} loading={b.loading} offline={b.offline} />

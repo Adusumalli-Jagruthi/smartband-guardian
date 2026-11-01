@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell } from "lucide-react";
-import { useSessionUser } from "@/lib/session";
+import { requireRole, useSessionUser } from "@/lib/session";
 import { PageHeader, Panel } from "@/components/states";
 import { AlertList, SosButton } from "@/components/widgets";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/alerts")({
+  beforeLoad: requireRole(["kid", "elderly", "guardian"]),
   head: () => seo("SOS & Alerts", "SOS button events, fall detection, heart-rate and medicine alerts."),
   component: Alerts,
 });

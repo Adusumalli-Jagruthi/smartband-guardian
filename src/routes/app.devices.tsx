@@ -1,3 +1,4 @@
+import { requireRole } from "@/lib/session";
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/devices")({
+  beforeLoad: requireRole(["guardian"]),
   head: () => seo("Device Management", "Pair, monitor and manage SmartBand ESP32-C3 devices."),
   component: Devices,
 });

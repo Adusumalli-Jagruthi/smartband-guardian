@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link2, UserCircle } from "lucide-react";
 import { integrationService, userService } from "@/lib/api/services";
 import { API_BASE_URL, apiErrorMessage } from "@/lib/api/client";
-import { useSessionUser } from "@/lib/session";
+import { requireRole, useSessionUser } from "@/lib/session";
 import { PageHeader, Panel } from "@/components/states";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/settings")({
+  beforeLoad: requireRole(["kid", "elderly", "guardian"]),
   head: () => seo("Settings & Profile", "Manage your SmartBand profile, language and integrations."),
   component: Settings,
 });
@@ -17,8 +18,7 @@ export const Route = createFileRoute("/app/settings")({
 const integrations = [
   { key: "pushNotifications", label: "Push notifications", desc: "Browser alerts for SOS and falls" },
   { key: "emailAlerts", label: "Email alerts", desc: "Send alerts to guardian email" },
-  { key: "whatsappAlerts", label: "WhatsApp alerts", desc: "Forward SOS via backend messaging provider" },
-  { key: "fallDetection", label: "Fall detection", desc: "Use MPU6050 to detect falls" },
+    { key: "fallDetection", label: "Fall detection", desc: "Use MPU6050 to detect falls" },
   { key: "heartRateAlerts", label: "Heart-rate alerts", desc: "Alert when BPM is outside safe range" },
 ];
 
@@ -50,7 +50,7 @@ function Settings() {
             <button disabled={!user} className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50">Save profile</button>
           </form>
         </Panel>
-        <Panel title="Integrations" icon={Link2}>
+        <Panel title="Alert preferences" icon={Link2}>
           <ul className="divide-y">
             {integrations.map((i) => {
               const on = !!toggles[i.key];
@@ -66,10 +66,11 @@ function Settings() {
             })}
           </ul>
           {saveInt.isError && <p className="text-sm text-destructive">{apiErrorMessage(saveInt.error)}</p>}
-          <button onClick={() => saveInt.mutate(toggles)} className="mt-3 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">Save integrations</button>
+          <button onClick={() => saveInt.mutate(toggles)} className="mt-3 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">Save preferences</button>
           <p className="mt-4 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
             Backend: {API_BASE_URL || "not configured — set VITE_API_BASE_URL"}. API keys for messaging or AI providers stay on the backend only.
           </p>
+          {user?.role === "guardian" && <Link to="/app/integrations" className="mt-3 inline-flex text-sm font-semibold text-primary">Manage ThingSpeak, Telegram & AI provider →</Link>}
         </Panel>
       </div>
     </>

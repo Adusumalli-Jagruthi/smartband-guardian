@@ -86,3 +86,16 @@ export function fmtTime(ts?: string | null) {
   const d = new Date(ts);
   return isNaN(d.getTime()) ? "—" : d.toLocaleString();
 }
+
+/** Live / Offline / Waiting badge for a band. */
+export function StatusPill({ offline, hasData, loading }: { offline: boolean; hasData: boolean; loading?: boolean | undefined }) {
+  const s = loading ? { t: "Checking…", c: "bg-muted text-muted-foreground", d: "bg-muted-foreground" }
+    : offline ? { t: "Device offline", c: "bg-destructive/10 text-destructive", d: "bg-destructive" }
+    : hasData ? { t: "Live", c: "bg-success/15 text-success", d: "bg-success animate-pulse" }
+    : { t: "Waiting for data", c: "bg-warning/15 text-warning", d: "bg-warning" };
+  return (
+    <span className={cn("inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold", s.c)}>
+      <span className={cn("h-2 w-2 rounded-full", s.d)} />{s.t}
+    </span>
+  );
+}

@@ -1,29 +1,45 @@
 import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import {
-  Activity, Bell, Bot, Cpu, HeartPulse, LogOut, MapPin, Menu, Pill, Settings, ShieldCheck, Users, X, Baby,
+  Activity, Bell, Bot, Cpu, HeartPulse, LayoutDashboard, LogOut, MapPin, Menu, Pill, Plug, ShieldCheck, UserCircle, X,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import type { Role } from "@/lib/api/types";
 import { clearSession, useSessionUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
 
-const nav = [
-  { group: "Dashboards", items: [
-    { to: "/app/kid", label: "School Kid", icon: Baby },
-    { to: "/app/elderly", label: "Elderly", icon: HeartPulse },
-    { to: "/app/guardian", label: "Guardian", icon: Users },
-  ]},
-  { group: "Monitoring", items: [
+type Item = { to: string; label: string; icon: LucideIcon };
+
+/** Each role sees only its own pages. */
+export const roleNav: Record<Role, Item[]> = {
+  kid: [
+    { to: "/app/kid", label: "My Dashboard", icon: LayoutDashboard },
+    { to: "/app/health", label: "Health & Activity", icon: HeartPulse },
     { to: "/app/tracking", label: "GPS Tracking", icon: MapPin },
-    { to: "/app/health", label: "Health & Activity", icon: Activity },
-    { to: "/app/medicines", label: "Medicines", icon: Pill },
     { to: "/app/alerts", label: "SOS & Alerts", icon: Bell },
+    { to: "/app/settings", label: "Profile", icon: UserCircle },
+  ],
+  elderly: [
+    { to: "/app/elderly", label: "My Dashboard", icon: LayoutDashboard },
     { to: "/app/assistant", label: "AI Assistant", icon: Bot },
-  ]},
-  { group: "Manage", items: [
-    { to: "/app/devices", label: "Devices", icon: Cpu },
-    { to: "/app/settings", label: "Settings & Profile", icon: Settings },
-  ]},
-] as const;
+    { to: "/app/medicines", label: "Medicines", icon: Pill },
+    { to: "/app/health", label: "Health & Activity", icon: Activity },
+    { to: "/app/tracking", label: "GPS Location", icon: MapPin },
+    { to: "/app/alerts", label: "SOS & Alerts", icon: Bell },
+    { to: "/app/settings", label: "Profile", icon: UserCircle },
+  ],
+  guardian: [
+    { to: "/app/guardian", label: "Linked Users", icon: LayoutDashboard },
+    { to: "/app/tracking", label: "GPS Tracking", icon: MapPin },
+    { to: "/app/alerts", label: "Emergency Alerts", icon: Bell },
+    { to: "/app/devices", label: "Device Status", icon: Cpu },
+    { to: "/app/integrations", label: "Integrations", icon: Plug },
+    { to: "/app/settings", label: "Profile", icon: UserCircle },
+  ],
+};
+
+const roleLabel: Record<Role, string> = { kid: "School Kid", elderly: "Elderly", guardian: "Guardian" };
 
 export function Logo({ className }: { className?: string | undefined }) {
   return (
@@ -39,30 +55,38 @@ export function AppShell({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const user = useSessionUser();
   const navigate = useNavigate();
+  const qc = useQueryClient();
+  const items = user ? roleNav[user.role] : [];
+
+  async function signOut() {
+    await qc.cancelQueries(); qc.clear(); clearSession();
+    navigate({ to: "/login", replace: true });
+  }
 
   const sidebar = (
-    <nav className="flex h-full flex-col gap-6 overflow-y-auto p-4">
+    <nav className="flex h-full flex-col gap-6 overflow-y-auto p-4" aria-label="Main">
       <Link to="/" className="px-2"><Logo /></Link>
-      {nav.map((g) => (
-        <div key={g.group}>
-          <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{g.group}</p>
-          <ul className="space-y-1">
-            {g.items.map((i) => {
-              const active = path === i.to;
-              return (
-                <li key={i.to}>
-                  <Link to={i.to} onClick={() => setOpen(false)}
-                    className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                      active ? "bg-primary text-primary-foreground" : "text-foreground/80 hover:bg-accent")}>
-                    <i.icon className="h-4 w-4" />{i.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+      {user && (
+        <div className="rounded-xl bg-accent px-3 py-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">{roleLabel[user.role]}</p>
+          <p className="truncate text-sm font-semibold text-foreground">{user.name}</p>
         </div>
-      ))}
-      <button onClick={() => { clearSession(); navigate({ to: "/login" }); }}
+      )}
+      <ul className="space-y-1">
+        {items.map((i) => {
+          const active = path === i.to;
+          return (
+            <li key={i.to}>
+              <Link to={i.to} onClick={() => setOpen(false)}
+                className={cn("flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  active ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground/80 hover:bg-accent")}>
+                <i.icon className="h-4 w-4" />{i.label}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+      <button onClick={signOut}
         className="mt-auto flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent">
         <LogOut className="h-4 w-4" /> Sign out
       </button>
@@ -82,17 +106,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       )}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-40 flex h-16 items-center gap-3 border-b bg-background/85 px-4 backdrop-blur md:px-8">
-          <button aria-label="Open menu" onClick={() => setOpen(true)} className="rounded-md p-2 hover:bg-accent lg:hidden"><Menu className="h-5 w-5" /></button>
-          <div className="lg:hidden"><Logo /></div>
-          <div className="ml-auto flex items-center gap-3">
-            <Link to="/app/alerts" aria-label="Alerts" className="rounded-full p-2 hover:bg-accent"><Bell className="h-5 w-5 text-foreground" /></Link>
-            <div className="hidden text-right sm:block">
-              <p className="text-sm font-semibold text-foreground">{user?.name ?? "Guest"}</p>
-              <p className="text-xs capitalize text-muted-foreground">{user?.role ?? "Not signed in"}</p>
-            </div>
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-accent font-semibold text-primary">{(user?.name ?? "G")[0]}</span>
-          </div>
+        <header className="sticky top-0 z-40 flex h-16 items-center gap-3 border-b bg-background/85 px-4 backdrop-blur md:px-8 lg:hidden">
+          <button aria-label="Open menu" onClick={() => setOpen(true)} className="rounded-md p-2 hover:bg-accent"><Menu className="h-5 w-5" /></button>
+          <Logo />
+          <Link to="/app/alerts" aria-label="Alerts" className="ml-auto rounded-full p-2 hover:bg-accent"><Bell className="h-5 w-5 text-foreground" /></Link>
         </header>
         <main className="mx-auto w-full max-w-7xl flex-1 p-4 md:p-8">{children}</main>
       </div>

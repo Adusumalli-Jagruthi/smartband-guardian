@@ -1,12 +1,14 @@
+import { requireRole } from "@/lib/session";
 import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Footprints, HeartPulse, History, MapPin } from "lucide-react";
 import { useBand } from "@/hooks/use-band";
-import { Metric, PageHeader, Panel } from "@/components/states";
+import { Metric, PageHeader, Panel, StatusPill } from "@/components/states";
 import { MapView } from "@/components/map-view";
 import { AlertList, DeviceStatus, HeartChart, SosButton } from "@/components/widgets";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/kid")({
+  beforeLoad: requireRole(["kid"]),
   head: () => seo("School Kid Dashboard", "Heart rate, GPS, activity, SOS and history for school kids."),
   component: KidDashboard,
 });
@@ -16,7 +18,7 @@ function KidDashboard() {
   const r = b.reading;
   return (
     <>
-      <PageHeader title="School Kid Dashboard" subtitle="Heart rate, location, activity and SOS" />
+      <PageHeader title={`Hi${b.session ? `, ${b.session.name.split(" ")[0]}` : ""} 👋`} subtitle="Heart rate, location, activity and SOS" action={<StatusPill offline={b.offline} hasData={!!r} loading={b.loading} />} />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Metric icon={HeartPulse} label="Heart rate" value={r?.heartRate} unit="BPM" loading={b.loading} offline={b.offline} />
         <Metric icon={Footprints} label="Steps today" value={r?.steps} loading={b.loading} offline={b.offline} />

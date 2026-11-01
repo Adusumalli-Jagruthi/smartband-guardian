@@ -13,3 +13,6 @@
 - All backend calls go through `src/lib/api/services.ts` (single Axios instance in `client.ts`, base URL from `VITE_API_BASE_URL`); backend is external, no Supabase/Firebase.
 - UI must never fabricate sensor/GPS values: use `DataState`/`Waiting`/`NotConnected` from `src/components/states.tsx`.
 - Leaflet is only loaded via `MapView` (lazy + ClientOnly) because it touches `window` at import.
+- Role-based access: `/app` is client-only (session in localStorage); every `/app/*` route declares `beforeLoad: requireRole([...])`, and sidebar items come from `roleNav` in `app-shell.tsx` — keep both in sync when adding pages.
+- AI chat calls only `aiService.chat` (backend proxies NVIDIA NIM + fallback); voice uses browser SpeechRecognition/SpeechSynthesis with visible fallbacks.
+- Integration credentials (ThingSpeak, Telegram, AI provider) go only to the external backend via `integrationConfigService`; the UI shows backend-masked values and never persists secrets client-side.

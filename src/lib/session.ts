@@ -1,3 +1,4 @@
+import { redirect } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { Role, User } from "./api/types";
 
@@ -24,3 +25,17 @@ export function useSessionUser() {
 export const roleHome: Record<Role, "/app/kid" | "/app/elderly" | "/app/guardian"> = {
   kid: "/app/kid", elderly: "/app/elderly", guardian: "/app/guardian",
 };
+
+export function getSessionUser(): User | null {
+  if (typeof window === "undefined") return null;
+  try { return JSON.parse(localStorage.getItem(KEY) ?? "null"); } catch { return null; }
+}
+
+/** Route guard: signed-out → /login, wrong role → that role's home. Runs client-side (/app is ssr:false). */
+export function requireRole(roles: Role[]) {
+  return () => {
+    const u = getSessionUser();
+    if (!u) throw redirect({ to: "/login" });
+    if (!roles.includes(u.role)) throw redirect({ to: roleHome[u.role] });
+  };
+}
