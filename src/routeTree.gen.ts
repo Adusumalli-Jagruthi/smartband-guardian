@@ -20,6 +20,7 @@ import { Route as AppDevicesRouteImport } from './routes/app.devices'
 import { Route as AppElderlyRouteImport } from './routes/app.elderly'
 import { Route as AppGuardianRouteImport } from './routes/app.guardian'
 import { Route as AppHealthRouteImport } from './routes/app.health'
+import { Route as AppIntegrationsRouteImport } from './routes/app.integrations'
 import { Route as AppKidRouteImport } from './routes/app.kid'
 import { Route as AppMedicinesRouteImport } from './routes/app.medicines'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
@@ -80,6 +81,11 @@ const AppHealthRoute = AppHealthRouteImport.update({
   path: '/health',
   getParentRoute: () => AppRoute,
 } as any)
+const AppIntegrationsRoute = AppIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppKidRoute = AppKidRouteImport.update({
   id: '/kid',
   path: '/kid',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/app/elderly': typeof AppElderlyRoute
   '/app/guardian': typeof AppGuardianRoute
   '/app/health': typeof AppHealthRoute
+  '/app/integrations': typeof AppIntegrationsRoute
   '/app/kid': typeof AppKidRoute
   '/app/medicines': typeof AppMedicinesRoute
   '/app/settings': typeof AppSettingsRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/app/elderly': typeof AppElderlyRoute
   '/app/guardian': typeof AppGuardianRoute
   '/app/health': typeof AppHealthRoute
+  '/app/integrations': typeof AppIntegrationsRoute
   '/app/kid': typeof AppKidRoute
   '/app/medicines': typeof AppMedicinesRoute
   '/app/settings': typeof AppSettingsRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/app/elderly': typeof AppElderlyRoute
   '/app/guardian': typeof AppGuardianRoute
   '/app/health': typeof AppHealthRoute
+  '/app/integrations': typeof AppIntegrationsRoute
   '/app/kid': typeof AppKidRoute
   '/app/medicines': typeof AppMedicinesRoute
   '/app/settings': typeof AppSettingsRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/app/elderly'
     | '/app/guardian'
     | '/app/health'
+    | '/app/integrations'
     | '/app/kid'
     | '/app/medicines'
     | '/app/settings'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/app/elderly'
     | '/app/guardian'
     | '/app/health'
+    | '/app/integrations'
     | '/app/kid'
     | '/app/medicines'
     | '/app/settings'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/app/elderly'
     | '/app/guardian'
     | '/app/health'
+    | '/app/integrations'
     | '/app/kid'
     | '/app/medicines'
     | '/app/settings'
@@ -291,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHealthRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/integrations': {
+      id: '/app/integrations'
+      path: '/integrations'
+      fullPath: '/app/integrations'
+      preLoaderRoute: typeof AppIntegrationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/kid': {
       id: '/app/kid'
       path: '/kid'
@@ -329,6 +348,7 @@ interface AppRouteChildren {
   AppElderlyRoute: typeof AppElderlyRoute
   AppGuardianRoute: typeof AppGuardianRoute
   AppHealthRoute: typeof AppHealthRoute
+  AppIntegrationsRoute: typeof AppIntegrationsRoute
   AppKidRoute: typeof AppKidRoute
   AppMedicinesRoute: typeof AppMedicinesRoute
   AppSettingsRoute: typeof AppSettingsRoute
@@ -343,6 +363,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppElderlyRoute: AppElderlyRoute,
   AppGuardianRoute: AppGuardianRoute,
   AppHealthRoute: AppHealthRoute,
+  AppIntegrationsRoute: AppIntegrationsRoute,
   AppKidRoute: AppKidRoute,
   AppMedicinesRoute: AppMedicinesRoute,
   AppSettingsRoute: AppSettingsRoute,
