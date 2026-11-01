@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import type { GpsPoint } from "@/lib/api/types";
 
 /** Renders only real GPS points supplied by the backend. */
-export default function LiveMap({ points, className }: { points: GpsPoint[]; className?: string }) {
+export default function LiveMap({ points, className }: { points: GpsPoint[]; className?: string | undefined }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current || points.length === 0) return;

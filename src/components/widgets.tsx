@@ -8,7 +8,7 @@ import type { Device } from "@/lib/api/types";
 import { DataState, NotConnected, Panel, Waiting, fmtTime } from "./states";
 import { cn } from "@/lib/utils";
 
-export function DeviceStatus({ device, offline, loading }: { device: Device | null; offline: boolean; loading?: boolean }) {
+export function DeviceStatus({ device, offline, loading }: { device: Device | null; offline: boolean; loading?: boolean | undefined }) {
   return (
     <Panel title="Band status" icon={Cpu}>
       {loading ? <Waiting label="Checking device…" /> : offline || !device ? <NotConnected /> : (
@@ -22,7 +22,7 @@ export function DeviceStatus({ device, offline, loading }: { device: Device | nu
   );
 }
 
-export function SosButton({ userId }: { userId?: string }) {
+export function SosButton({ userId }: { userId?: string | undefined }) {
   const [msg, setMsg] = useState("");
   const m = useMutation({
     mutationFn: () => alertService.triggerSos(userId!),
@@ -40,7 +40,7 @@ export function SosButton({ userId }: { userId?: string }) {
   );
 }
 
-export function HeartChart({ userId, range = "day", offline }: { userId?: string; range?: "day" | "week"; offline?: boolean }) {
+export function HeartChart({ userId, range = "day", offline }: { userId?: string | undefined; range?: "day" | "week" | undefined; offline?: boolean | undefined }) {
   const q = useQuery({ queryKey: ["history", userId, range], queryFn: () => sensorService.history(userId!, range), enabled: !!userId, retry: false });
   const data = (q.data ?? []).filter((r) => r.heartRate != null).map((r) => ({ t: new Date(r.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), bpm: r.heartRate }));
   return (
@@ -63,7 +63,7 @@ export function HeartChart({ userId, range = "day", offline }: { userId?: string
   );
 }
 
-export function StepsChart({ userId, offline }: { userId?: string; offline?: boolean }) {
+export function StepsChart({ userId, offline }: { userId?: string | undefined; offline?: boolean | undefined }) {
   const q = useQuery({ queryKey: ["history", userId, "week"], queryFn: () => sensorService.history(userId!, "week"), enabled: !!userId, retry: false });
   const byDay = new Map<string, number>();
   (q.data ?? []).forEach((r) => {
@@ -91,7 +91,7 @@ export function StepsChart({ userId, offline }: { userId?: string; offline?: boo
   );
 }
 
-export function MedicineList({ userId, canConfirm = true }: { userId?: string; canConfirm?: boolean }) {
+export function MedicineList({ userId, canConfirm = true }: { userId?: string | undefined; canConfirm?: boolean | undefined }) {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["meds", userId], queryFn: () => medicineService.list(userId!), enabled: !!userId, retry: false });
   const confirm = useMutation({ mutationFn: medicineService.confirm, onSuccess: () => qc.invalidateQueries({ queryKey: ["meds", userId] }) });
@@ -117,7 +117,7 @@ export function MedicineList({ userId, canConfirm = true }: { userId?: string; c
   );
 }
 
-export function AlertList({ userId, limit }: { userId?: string; limit?: number }) {
+export function AlertList({ userId, limit }: { userId?: string | undefined; limit?: number | undefined }) {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["alerts", userId], queryFn: () => alertService.list(userId), retry: false, refetchInterval: 15000 });
   const ack = useMutation({ mutationFn: alertService.acknowledge, onSuccess: () => qc.invalidateQueries({ queryKey: ["alerts"] }) });

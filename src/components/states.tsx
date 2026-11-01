@@ -4,7 +4,7 @@ import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Panel({ title, icon: Icon, action, children, className }: {
-  title?: string; icon?: LucideIcon; action?: ReactNode; children: ReactNode; className?: string;
+  title?: string | undefined; icon?: LucideIcon | undefined; action?: ReactNode | undefined; children: ReactNode; className?: string | undefined;
 }) {
   return (
     <section className={cn("rounded-2xl border bg-card p-5 shadow-[var(--shadow-card)]", className)}>
@@ -21,7 +21,7 @@ export function Panel({ title, icon: Icon, action, children, className }: {
   );
 }
 
-export function Waiting({ label = "Waiting for device data" }: { label?: string }) {
+export function Waiting({ label = "Waiting for device data" }: { label?: string | undefined }) {
   return (
     <div className="flex items-center gap-2 text-sm text-muted-foreground">
       <Radio className="h-4 w-4 animate-pulse text-primary" /> {label}
@@ -43,7 +43,7 @@ export function Loading() {
 
 /** Decides which state to show. Never invents values. */
 export function DataState<T>({ loading, offline, data, empty, children }: {
-  loading?: boolean; offline?: boolean; data: T | null | undefined; empty?: (d: T) => boolean; children: (d: T) => ReactNode;
+  loading?: boolean | undefined; offline?: boolean | undefined; data: T | null | undefined; empty?: ((d: T) => boolean) | undefined; children: (d: T) => ReactNode;
 }) {
   if (loading) return <Loading />;
   if (offline) return <NotConnected />;
@@ -52,7 +52,7 @@ export function DataState<T>({ loading, offline, data, empty, children }: {
 }
 
 export function Metric({ icon: Icon, label, value, unit, loading, offline }: {
-  icon: LucideIcon; label: string; value: number | string | null | undefined; unit?: string; loading?: boolean; offline?: boolean;
+  icon: LucideIcon; label: string; value: number | string | null | undefined; unit?: string | undefined; loading?: boolean | undefined; offline?: boolean | undefined;
 }) {
   return (
     <Panel>
@@ -69,7 +69,7 @@ export function Metric({ icon: Icon, label, value, unit, loading, offline }: {
   );
 }
 
-export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
+export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode | undefined }) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
       <div>

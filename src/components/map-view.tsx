@@ -5,7 +5,7 @@ import { NotConnected, Waiting } from "./states";
 
 const LiveMap = lazy(() => import("./live-map"));
 
-export function MapView({ points, offline, className }: { points: GpsPoint[]; offline?: boolean; className?: string }) {
+export function MapView({ points, offline, className }: { points: GpsPoint[]; offline?: boolean | undefined; className?: string | undefined }) {
   const box = `flex items-center justify-center rounded-xl border border-dashed bg-muted/40 ${className ?? "h-72"}`;
   if (offline && points.length === 0) return <div className={box}><NotConnected /></div>;
   if (points.length === 0) return <div className={box}><Waiting label="Waiting for GPS fix from device" /></div>;
