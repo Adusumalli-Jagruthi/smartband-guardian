@@ -42,6 +42,7 @@ function Assistant() {
   const [voiceIn, setVoiceIn] = useState(true);
   const [voiceOut, setVoiceOut] = useState(true);
   const [notice, setNotice] = useState("");
+  const [loaded, setLoaded] = useState(false);
   const rec = useRef<SR | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -55,8 +56,9 @@ function Assistant() {
     } catch { /* ignore */ }
     setVoiceIn(!!getRecognition());
     setVoiceOut("speechSynthesis" in window);
+    setLoaded(true);
   }, []);
-  useEffect(() => { localStorage.setItem(STORE, JSON.stringify({ msgs, lang })); }, [msgs, lang]);
+  useEffect(() => { if (loaded) localStorage.setItem(STORE, JSON.stringify({ msgs, lang })); }, [msgs, lang, loaded]);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs, busy]);
 
   function speak(t: string) {
