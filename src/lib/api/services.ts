@@ -56,7 +56,8 @@ export const guardianService = {
 };
 
 export const aiService = {
-  chat: (body: { message: string; language: string }) => d<ChatReply>(api.post("/ai/chat", body)),
+  /** Backend proxies to NVIDIA NIM (with configurable fallback provider). No keys in the browser. */
+  chat: (body: { message: string; language: string; history: { role: "user" | "assistant"; content: string }[] }) => d<ChatReply>(api.post("/ai/chat", body)),
 };
 
 export const integrationService = {

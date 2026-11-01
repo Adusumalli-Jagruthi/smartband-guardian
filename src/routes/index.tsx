@@ -41,7 +41,7 @@ function Landing() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/register" className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-[var(--shadow-elegant)] hover:opacity-90">Create account <ArrowRight className="h-4 w-4" /></Link>
-            <Link to="/app/guardian" className="rounded-xl border px-6 py-3 font-semibold text-foreground hover:bg-accent">Open dashboard</Link>
+            <Link to="/login" className="rounded-xl border px-6 py-3 font-semibold text-foreground hover:bg-accent">Sign in</Link>
           </div>
         </div>
         <div className="relative rounded-3xl border bg-card p-6 shadow-[var(--shadow-elegant)]">
