@@ -56,7 +56,7 @@ export function IntegrationCard({ name, title, description, icon: Icon, fields, 
   const unavailable = q.isError;
   const configured = !!cfg?.configured;
   const status: IntegrationStatus = unavailable || !configured ? "not_configured" : cfg.status;
-  const showForm = editing || (!configured && !unavailable);
+  const showForm = editing || !configured;
   const refresh = () => qc.invalidateQueries({ queryKey: ["integration", name] });
 
   const save = useMutation({
