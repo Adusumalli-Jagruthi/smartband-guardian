@@ -15,11 +15,14 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppAlertsRouteImport } from './routes/app.alerts'
+import { Route as AppAssistantRouteImport } from './routes/app.assistant'
+import { Route as AppDevicesRouteImport } from './routes/app.devices'
 import { Route as AppElderlyRouteImport } from './routes/app.elderly'
 import { Route as AppGuardianRouteImport } from './routes/app.guardian'
 import { Route as AppHealthRouteImport } from './routes/app.health'
 import { Route as AppKidRouteImport } from './routes/app.kid'
 import { Route as AppMedicinesRouteImport } from './routes/app.medicines'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppTrackingRouteImport } from './routes/app.tracking'
 
 const IndexRoute = IndexRouteImport.update({
@@ -52,6 +55,16 @@ const AppAlertsRoute = AppAlertsRouteImport.update({
   path: '/alerts',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAssistantRoute = AppAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDevicesRoute = AppDevicesRouteImport.update({
+  id: '/devices',
+  path: '/devices',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppElderlyRoute = AppElderlyRouteImport.update({
   id: '/elderly',
   path: '/elderly',
@@ -77,6 +90,11 @@ const AppMedicinesRoute = AppMedicinesRouteImport.update({
   path: '/medicines',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppTrackingRoute = AppTrackingRouteImport.update({
   id: '/tracking',
   path: '/tracking',
@@ -89,11 +107,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/alerts': typeof AppAlertsRoute
+  '/app/assistant': typeof AppAssistantRoute
+  '/app/devices': typeof AppDevicesRoute
   '/app/elderly': typeof AppElderlyRoute
   '/app/guardian': typeof AppGuardianRoute
   '/app/health': typeof AppHealthRoute
   '/app/kid': typeof AppKidRoute
   '/app/medicines': typeof AppMedicinesRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/tracking': typeof AppTrackingRoute
   '/app/': typeof AppIndexRoute
 }
@@ -102,11 +123,14 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/alerts': typeof AppAlertsRoute
+  '/app/assistant': typeof AppAssistantRoute
+  '/app/devices': typeof AppDevicesRoute
   '/app/elderly': typeof AppElderlyRoute
   '/app/guardian': typeof AppGuardianRoute
   '/app/health': typeof AppHealthRoute
   '/app/kid': typeof AppKidRoute
   '/app/medicines': typeof AppMedicinesRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/tracking': typeof AppTrackingRoute
   '/app': typeof AppIndexRoute
 }
@@ -117,11 +141,14 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/alerts': typeof AppAlertsRoute
+  '/app/assistant': typeof AppAssistantRoute
+  '/app/devices': typeof AppDevicesRoute
   '/app/elderly': typeof AppElderlyRoute
   '/app/guardian': typeof AppGuardianRoute
   '/app/health': typeof AppHealthRoute
   '/app/kid': typeof AppKidRoute
   '/app/medicines': typeof AppMedicinesRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/tracking': typeof AppTrackingRoute
   '/app/': typeof AppIndexRoute
 }
@@ -133,11 +160,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/alerts'
+    | '/app/assistant'
+    | '/app/devices'
     | '/app/elderly'
     | '/app/guardian'
     | '/app/health'
     | '/app/kid'
     | '/app/medicines'
+    | '/app/settings'
     | '/app/tracking'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -146,11 +176,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/alerts'
+    | '/app/assistant'
+    | '/app/devices'
     | '/app/elderly'
     | '/app/guardian'
     | '/app/health'
     | '/app/kid'
     | '/app/medicines'
+    | '/app/settings'
     | '/app/tracking'
     | '/app'
   id:
@@ -160,11 +193,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/alerts'
+    | '/app/assistant'
+    | '/app/devices'
     | '/app/elderly'
     | '/app/guardian'
     | '/app/health'
     | '/app/kid'
     | '/app/medicines'
+    | '/app/settings'
     | '/app/tracking'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -220,6 +256,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAlertsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/assistant': {
+      id: '/app/assistant'
+      path: '/assistant'
+      fullPath: '/app/assistant'
+      preLoaderRoute: typeof AppAssistantRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/devices': {
+      id: '/app/devices'
+      path: '/devices'
+      fullPath: '/app/devices'
+      preLoaderRoute: typeof AppDevicesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/elderly': {
       id: '/app/elderly'
       path: '/elderly'
@@ -255,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMedicinesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/tracking': {
       id: '/app/tracking'
       path: '/tracking'
@@ -267,22 +324,28 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppAlertsRoute: typeof AppAlertsRoute
+  AppAssistantRoute: typeof AppAssistantRoute
+  AppDevicesRoute: typeof AppDevicesRoute
   AppElderlyRoute: typeof AppElderlyRoute
   AppGuardianRoute: typeof AppGuardianRoute
   AppHealthRoute: typeof AppHealthRoute
   AppKidRoute: typeof AppKidRoute
   AppMedicinesRoute: typeof AppMedicinesRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppTrackingRoute: typeof AppTrackingRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAlertsRoute: AppAlertsRoute,
+  AppAssistantRoute: AppAssistantRoute,
+  AppDevicesRoute: AppDevicesRoute,
   AppElderlyRoute: AppElderlyRoute,
   AppGuardianRoute: AppGuardianRoute,
   AppHealthRoute: AppHealthRoute,
   AppKidRoute: AppKidRoute,
   AppMedicinesRoute: AppMedicinesRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppTrackingRoute: AppTrackingRoute,
   AppIndexRoute: AppIndexRoute,
 }
