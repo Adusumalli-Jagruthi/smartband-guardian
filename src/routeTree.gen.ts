@@ -14,6 +14,13 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppAlertsRouteImport } from './routes/app.alerts'
+import { Route as AppElderlyRouteImport } from './routes/app.elderly'
+import { Route as AppGuardianRouteImport } from './routes/app.guardian'
+import { Route as AppHealthRouteImport } from './routes/app.health'
+import { Route as AppKidRouteImport } from './routes/app.kid'
+import { Route as AppMedicinesRouteImport } from './routes/app.medicines'
+import { Route as AppTrackingRouteImport } from './routes/app.tracking'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,18 +47,67 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAlertsRoute = AppAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppElderlyRoute = AppElderlyRouteImport.update({
+  id: '/elderly',
+  path: '/elderly',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGuardianRoute = AppGuardianRouteImport.update({
+  id: '/guardian',
+  path: '/guardian',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHealthRoute = AppHealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppKidRoute = AppKidRouteImport.update({
+  id: '/kid',
+  path: '/kid',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMedicinesRoute = AppMedicinesRouteImport.update({
+  id: '/medicines',
+  path: '/medicines',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTrackingRoute = AppTrackingRouteImport.update({
+  id: '/tracking',
+  path: '/tracking',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/alerts': typeof AppAlertsRoute
+  '/app/elderly': typeof AppElderlyRoute
+  '/app/guardian': typeof AppGuardianRoute
+  '/app/health': typeof AppHealthRoute
+  '/app/kid': typeof AppKidRoute
+  '/app/medicines': typeof AppMedicinesRoute
+  '/app/tracking': typeof AppTrackingRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/alerts': typeof AppAlertsRoute
+  '/app/elderly': typeof AppElderlyRoute
+  '/app/guardian': typeof AppGuardianRoute
+  '/app/health': typeof AppHealthRoute
+  '/app/kid': typeof AppKidRoute
+  '/app/medicines': typeof AppMedicinesRoute
+  '/app/tracking': typeof AppTrackingRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -60,14 +116,57 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/alerts': typeof AppAlertsRoute
+  '/app/elderly': typeof AppElderlyRoute
+  '/app/guardian': typeof AppGuardianRoute
+  '/app/health': typeof AppHealthRoute
+  '/app/kid': typeof AppKidRoute
+  '/app/medicines': typeof AppMedicinesRoute
+  '/app/tracking': typeof AppTrackingRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/login' | '/register' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/app/alerts'
+    | '/app/elderly'
+    | '/app/guardian'
+    | '/app/health'
+    | '/app/kid'
+    | '/app/medicines'
+    | '/app/tracking'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/app'
-  id: '__root__' | '/' | '/app' | '/login' | '/register' | '/app/'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/app/alerts'
+    | '/app/elderly'
+    | '/app/guardian'
+    | '/app/health'
+    | '/app/kid'
+    | '/app/medicines'
+    | '/app/tracking'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/app/alerts'
+    | '/app/elderly'
+    | '/app/guardian'
+    | '/app/health'
+    | '/app/kid'
+    | '/app/medicines'
+    | '/app/tracking'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -114,14 +213,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/alerts': {
+      id: '/app/alerts'
+      path: '/alerts'
+      fullPath: '/app/alerts'
+      preLoaderRoute: typeof AppAlertsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/elderly': {
+      id: '/app/elderly'
+      path: '/elderly'
+      fullPath: '/app/elderly'
+      preLoaderRoute: typeof AppElderlyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/guardian': {
+      id: '/app/guardian'
+      path: '/guardian'
+      fullPath: '/app/guardian'
+      preLoaderRoute: typeof AppGuardianRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/health': {
+      id: '/app/health'
+      path: '/health'
+      fullPath: '/app/health'
+      preLoaderRoute: typeof AppHealthRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/kid': {
+      id: '/app/kid'
+      path: '/kid'
+      fullPath: '/app/kid'
+      preLoaderRoute: typeof AppKidRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/medicines': {
+      id: '/app/medicines'
+      path: '/medicines'
+      fullPath: '/app/medicines'
+      preLoaderRoute: typeof AppMedicinesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/tracking': {
+      id: '/app/tracking'
+      path: '/tracking'
+      fullPath: '/app/tracking'
+      preLoaderRoute: typeof AppTrackingRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAlertsRoute: typeof AppAlertsRoute
+  AppElderlyRoute: typeof AppElderlyRoute
+  AppGuardianRoute: typeof AppGuardianRoute
+  AppHealthRoute: typeof AppHealthRoute
+  AppKidRoute: typeof AppKidRoute
+  AppMedicinesRoute: typeof AppMedicinesRoute
+  AppTrackingRoute: typeof AppTrackingRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAlertsRoute: AppAlertsRoute,
+  AppElderlyRoute: AppElderlyRoute,
+  AppGuardianRoute: AppGuardianRoute,
+  AppHealthRoute: AppHealthRoute,
+  AppKidRoute: AppKidRoute,
+  AppMedicinesRoute: AppMedicinesRoute,
+  AppTrackingRoute: AppTrackingRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

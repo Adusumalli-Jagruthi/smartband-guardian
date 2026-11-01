@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
-  Activity, Bell, Bot, Cpu, HeartPulse, LayoutDashboard, LogOut, MapPin, Menu, Pill, Settings, ShieldCheck, Users, X, Baby,
+  Activity, Bell, Bot, Cpu, HeartPulse, LogOut, MapPin, Menu, Pill, Settings, ShieldCheck, Users, X, Baby,
 } from "lucide-react";
 import { clearSession, useSessionUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
@@ -94,7 +94,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <span className="grid h-9 w-9 place-items-center rounded-full bg-accent font-semibold text-primary">{(user?.name ?? "G")[0]}</span>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-7xl flex-1 p-4 md:p-8"><LayoutDashboard className="hidden" />{children}</main>
+        <main className="mx-auto w-full max-w-7xl flex-1 p-4 md:p-8">{children}</main>
       </div>
     </div>
   );
