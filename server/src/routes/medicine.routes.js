@@ -1,0 +1,13 @@
+const r = require("express").Router();
+const c = require("../controllers/medicine.controller");
+const validate = require("../middleware/validate");
+const { requireAuth, requireRole } = require("../middleware/auth");
+const { asyncHandler: a } = require("../utils/http");
+r.use(requireAuth, requireRole("elderly", "guardian"));
+r.get("/:userId", a(c.list));
+r.get("/:userId/history", a(c.history));
+r.post("/:userId", validate(c.createSchema), a(c.create));
+r.post("/:id/confirm", validate(c.confirmSchema), a(c.confirm));
+r.put("/:id", validate(c.updateSchema), a(c.update));
+r.delete("/:id", a(c.remove));
+module.exports = r;

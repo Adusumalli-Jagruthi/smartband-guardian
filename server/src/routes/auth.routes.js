@@ -1,0 +1,11 @@
+const r = require("express").Router();
+const c = require("../controllers/auth.controller");
+const validate = require("../middleware/validate");
+const { requireAuth } = require("../middleware/auth");
+const { authLimiter } = require("../middleware/rateLimit");
+const { asyncHandler: a } = require("../utils/http");
+r.post("/register", authLimiter, validate(c.registerSchema), a(c.register));
+r.post("/login", authLimiter, validate(c.loginSchema), a(c.login));
+r.get("/me", requireAuth, a(c.me));
+r.post("/logout", requireAuth, a(c.logout));
+module.exports = r;
