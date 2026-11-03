@@ -1,0 +1,10 @@
+const r = require("express").Router();
+const c = require("../controllers/guardian.controller");
+const validate = require("../middleware/validate");
+const { requireAuth, requireRole } = require("../middleware/auth");
+const { asyncHandler: a } = require("../utils/http");
+r.use(requireAuth, requireRole("guardian"));
+r.get("/linked-users", a(c.linkedUsers));
+r.post("/link", validate(c.linkSchema), a(c.link));
+r.delete("/link/:userId", a(c.unlink));
+module.exports = r;

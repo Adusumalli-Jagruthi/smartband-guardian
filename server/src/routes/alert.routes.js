@@ -1,0 +1,10 @@
+const r = require("express").Router();
+const c = require("../controllers/alert.controller");
+const validate = require("../middleware/validate");
+const { requireAuth } = require("../middleware/auth");
+const { asyncHandler: a } = require("../utils/http");
+r.use(requireAuth);
+r.get("/", a(c.list));
+r.post("/sos", validate(c.sosSchema), a(c.triggerSos));
+r.post("/:id/acknowledge", a(c.acknowledge));
+module.exports = r;

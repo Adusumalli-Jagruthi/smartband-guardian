@@ -1,0 +1,13 @@
+const r = require("express").Router();
+const c = require("../controllers/integration.controller");
+const validate = require("../middleware/validate");
+const { requireAuth, requireRole } = require("../middleware/auth");
+const { asyncHandler: a } = require("../utils/http");
+r.use(requireAuth);
+r.get("/", a(c.getPrefs));
+r.put("/", validate(c.prefsSchema), a(c.updatePrefs));
+r.get("/:name/config", requireRole("guardian"), a(c.getConfig));
+r.put("/:name/config", requireRole("guardian"), validate(c.saveSchema), a(c.saveConfig));
+r.delete("/:name/config", requireRole("guardian"), a(c.removeConfig));
+r.post("/:name/test", requireRole("guardian"), a(c.testConfig));
+module.exports = r;
