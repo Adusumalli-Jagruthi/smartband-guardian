@@ -59,3 +59,12 @@ export interface IntegrationConfig {
   lastMessage?: string | null;             // last test / notification result text
 }
 export interface IntegrationTestResult { ok: boolean; message: string; testedAt: string }
+
+/** One ThingSpeak entry. Every value is null when the device didn't send it. */
+export interface ThingSpeakEntry {
+  timestamp: string; entryId: number;
+  temperatureF: number | null; heartRate: number | null; spo2: number | null;
+  accelX: number | null; accelY: number | null; panic: boolean | null;
+  lat: number | null; lng: number | null;
+}
+export interface ThingSpeakFeed { configured: boolean; error: string | null; channelName: string | null; lastEntryAt: string | null; feeds: ThingSpeakEntry[] }

@@ -29,6 +29,7 @@ app.use("/api/alerts", require("./routes/alert.routes"));
 app.use("/api/guardian", require("./routes/guardian.routes"));
 app.use("/api/ai", require("./routes/ai.routes"));
 app.use("/api/integrations", require("./routes/integration.routes"));
+app.use("/api/thingspeak", require("./routes/thingspeak.routes"));
 
 app.use(notFound);
 app.use(errorHandler);
