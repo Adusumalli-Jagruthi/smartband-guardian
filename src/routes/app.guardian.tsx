@@ -8,6 +8,7 @@ import { apiErrorMessage } from "@/lib/api/client";
 import { NotConnected, PageHeader, Panel, Waiting } from "@/components/states";
 import { MapView } from "@/components/map-view";
 import { AlertList, MedicineList } from "@/components/widgets";
+import { ThingSpeakPanel } from "@/components/thingspeak-panel";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -59,6 +60,7 @@ function GuardianDashboard() {
           </div>
         )}
       </Panel>
+      {current && <div className="mt-6"><h2 className="mb-3 font-display text-lg font-semibold">{current.name}'s live readings (ThingSpeak)</h2><ThingSpeakPanel userId={current.id} /></div>}
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
         <Panel title={current ? `${current.name}'s location` : "Location"} icon={MapPin} className="lg:col-span-2">
           <MapView points={current?.location ? [current.location] : []} offline={!!current && !online} />
