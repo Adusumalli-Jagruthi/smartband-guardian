@@ -68,3 +68,13 @@ export interface ThingSpeakEntry {
   lat: number | null; lng: number | null;
 }
 export interface ThingSpeakFeed { configured: boolean; error: string | null; channelName: string | null; lastEntryAt: string | null; feeds: ThingSpeakEntry[] }
+
+export interface LinkPerson { id: string; name: string; email: string; role: Role }
+export interface LinkRequest {
+  id: string; status: "pending" | "approved" | "rejected"; createdAt: string; decidedAt?: string | null;
+  guardian?: LinkPerson; member?: LinkPerson;
+}
+/** Plain code is returned only once, at generation. */
+export interface LinkCode { code: string; expiresAt: string }
+export interface LinkCodeStatus { state: "none" | "active" | "expired" | "used"; expiresAt: string | null; usedAt: string | null }
+export interface MemberLinkOverview { pending: LinkRequest[]; guardians: LinkPerson[] }

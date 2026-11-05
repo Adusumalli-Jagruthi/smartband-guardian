@@ -5,6 +5,7 @@ import { useBand } from "@/hooks/use-band";
 import { Metric, PageHeader, Panel, StatusPill } from "@/components/states";
 import { DeviceStatus, HeartChart, MedicineList, SosButton } from "@/components/widgets";
 import { ThingSpeakPanel } from "@/components/thingspeak-panel";
+import { LinkGuardianPanel } from "@/components/link-panels";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/elderly")({
@@ -21,6 +22,7 @@ function ElderlyDashboard() {
       <PageHeader title={`Hello${b.session ? `, ${b.session.name.split(" ")[0]}` : ""}`} subtitle="Your health, reminders and help — in one place" action={<StatusPill offline={b.offline} hasData={!!r} loading={b.loading} />} />
       <h2 className="mb-3 font-display text-lg font-semibold">Live health (ThingSpeak)</h2>
       <ThingSpeakPanel userId={b.userId} sections={["vitals", "sos", "charts"]} />
+      <div className="mt-8"><LinkGuardianPanel /></div>
       <h2 className="mb-3 mt-8 font-display text-lg font-semibold">Reminders & help</h2>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Metric icon={HeartPulse} label="Heart rate" value={r?.heartRate} unit="BPM" loading={b.loading} offline={b.offline} />

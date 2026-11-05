@@ -1,6 +1,6 @@
 import { api } from "./client";
 import type {
-  Alert, AuthResponse, IntegrationConfig, IntegrationName, IntegrationTestResult, ThingSpeakFeed, ChatReply, Device, GpsPoint, LinkedUser, Medicine, Role, SensorReading, User,
+  Alert, AuthResponse, IntegrationConfig, IntegrationName, IntegrationTestResult, ThingSpeakFeed, ChatReply, Device, GpsPoint, LinkedUser, LinkCode, LinkCodeStatus, LinkRequest, MemberLinkOverview, Medicine, Role, SensorReading, User,
 } from "./types";
 
 const d = <T,>(p: Promise<{ data: T }>) => p.then((r) => r.data);
@@ -52,7 +52,20 @@ export const alertService = {
 
 export const guardianService = {
   linkedUsers: () => d<LinkedUser[]>(api.get("/guardian/linked-users")),
-  link: (code: string) => d<LinkedUser>(api.post("/guardian/link", { code })),
+  /** Submits a member's one-time code; creates a PENDING request the member must approve. */
+  link: (code: string) => d<LinkRequest>(api.post("/guardian/link", { code })),
+  requests: () => d<LinkRequest[]>(api.get("/guardian/requests")),
+  unlink: (userId: string) => d<void>(api.delete(`/guardian/link/${userId}`)),
+};
+
+/** Kid/elderly side of linking: one-time code, approve/reject requests, manage guardians. */
+export const linkService = {
+  codeStatus: () => d<LinkCodeStatus>(api.get("/link/code")),
+  generateCode: () => d<LinkCode>(api.post("/link/code")),
+  overview: () => d<MemberLinkOverview>(api.get("/link/overview")),
+  approve: (id: string) => d<LinkRequest>(api.post(`/link/requests/${id}/approve`)),
+  reject: (id: string) => d<LinkRequest>(api.post(`/link/requests/${id}/reject`)),
+  removeGuardian: (guardianId: string) => d<void>(api.delete(`/link/guardians/${guardianId}`)),
 };
 
 export const aiService = {

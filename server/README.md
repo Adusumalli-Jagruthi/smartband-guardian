@@ -27,7 +27,7 @@ Frontend: set `VITE_API_BASE_URL=http://localhost:5000/api` in the project root 
 | Area | Endpoints |
 |---|---|
 | Auth | `POST /auth/register`, `POST /auth/login` (role must match account), `GET /auth/me`, `POST /auth/logout` (revokes all tokens) |
-| Users | `GET /users/:id` (self or linked guardian), `PUT /users/:id` (self) — kid/elderly responses include `linkCode` |
+| Users | `GET /users/:id` (self or linked guardian), `PUT /users/:id` (self) |
 | Devices | `GET /devices`, `GET /devices/:id`, `POST /devices` → returns `deviceKey` **once**, `DELETE /devices/:id`, `POST /devices/:id/buzzer` |
 | Ingest (ESP32) | `POST /ingest` with headers `X-Device-Id`, `X-Device-Key`; body `{heartRate, steps, activity, battery, lat, lng, accuracy, sos, firmware}`; response `{ok, buzzer}` |
 | Sensors | `GET /sensors/:userId/latest`, `GET /sensors/:userId/history?range=day\|week` |
