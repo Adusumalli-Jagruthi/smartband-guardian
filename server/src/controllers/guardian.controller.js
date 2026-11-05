@@ -5,6 +5,7 @@ const SensorReading = require("../models/SensorReading");
 const GpsPoint = require("../models/GpsPoint");
 const Medicine = require("../models/Medicine");
 const Alert = require("../models/Alert");
+const LinkRequest = require("../models/LinkRequest");
 const { withStatus } = require("./medicine.controller");
 const { HttpError } = require("../utils/http");
 
@@ -33,18 +34,10 @@ async function linkedUsers(req, res) {
   const members = await User.find({ guardians: req.user._id }).sort({ name: 1 });
   res.json(await Promise.all(members.map(summary)));
 }
-async function link(req, res) {
-  const member = await User.findOne({ linkCode: req.body.code.toUpperCase() });
-  if (!member || member.role === "guardian") throw new HttpError(404, "No kid or elderly account found for this code");
-  if (!member.guardians.some((g) => String(g) === String(req.user._id))) {
-    member.guardians.push(req.user._id);
-    await member.save();
-  }
-  res.status(201).json(await summary(member));
-}
 async function unlink(req, res) {
   const r = await User.updateOne({ _id: req.params.userId, guardians: req.user._id }, { $pull: { guardians: req.user._id } });
   if (!r.modifiedCount) throw new HttpError(404, "User is not linked to you");
+  await LinkRequest.updateMany({ guardian: req.user._id, member: req.params.userId, status: "approved" }, { status: "rejected", decidedAt: new Date() });
   res.status(204).end();
 }
-module.exports = { linkSchema, linkedUsers, link, unlink };
+module.exports = { linkSchema, linkedUsers, unlink };

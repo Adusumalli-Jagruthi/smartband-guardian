@@ -27,6 +27,7 @@ app.use("/api/gps", require("./routes/gps.routes"));
 app.use("/api/medicines", require("./routes/medicine.routes"));
 app.use("/api/alerts", require("./routes/alert.routes"));
 app.use("/api/guardian", require("./routes/guardian.routes"));
+app.use("/api/link", require("./routes/link.routes"));
 app.use("/api/ai", require("./routes/ai.routes"));
 app.use("/api/integrations", require("./routes/integration.routes"));
 app.use("/api/thingspeak", require("./routes/thingspeak.routes"));
