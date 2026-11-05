@@ -79,7 +79,7 @@ export function LinkGuardianPanel() {
                 <p className="font-semibold text-foreground">{r.guardian?.name}</p>
                 <p className="truncate text-xs text-muted-foreground">{r.guardian?.email}</p>
                 <div className="mt-2 flex gap-2">
-                  <button onClick={() => approve.mutate(r.id)} disabled={approve.isPending || reject.isPending} className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-success px-3 py-1.5 text-sm font-semibold text-success-foreground disabled:opacity-50"><Check className="h-4 w-4" />Approve</button>
+                  <button onClick={() => approve.mutate(r.id)} disabled={approve.isPending || reject.isPending} className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-success px-3 py-1.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"><Check className="h-4 w-4" />Approve</button>
                   <button onClick={() => reject.mutate(r.id)} disabled={approve.isPending || reject.isPending} className="flex flex-1 items-center justify-center gap-1 rounded-lg border px-3 py-1.5 text-sm font-semibold text-destructive disabled:opacity-50"><X className="h-4 w-4" />Reject</button>
                 </div>
               </div>
