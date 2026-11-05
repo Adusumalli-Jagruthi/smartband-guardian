@@ -1,6 +1,6 @@
 import { api } from "./client";
 import type {
-  Alert, AuthResponse, IntegrationConfig, IntegrationName, IntegrationTestResult, ChatReply, Device, GpsPoint, LinkedUser, Medicine, Role, SensorReading, User,
+  Alert, AuthResponse, IntegrationConfig, IntegrationName, IntegrationTestResult, ThingSpeakFeed, ChatReply, Device, GpsPoint, LinkedUser, Medicine, Role, SensorReading, User,
 } from "./types";
 
 const d = <T,>(p: Promise<{ data: T }>) => p.then((r) => r.data);
@@ -73,4 +73,9 @@ export const integrationConfigService = {
     d<IntegrationConfig>(api.put(`/integrations/${name}/config`, body)),
   remove: (name: IntegrationName) => d<void>(api.delete(`/integrations/${name}/config`)),
   test: (name: IntegrationName) => d<IntegrationTestResult>(api.post(`/integrations/${name}/test`)),
+};
+
+/** Backend reads ThingSpeak fields 1–8 with the stored Channel ID + Read key (never sent to the browser). */
+export const thingspeakService = {
+  feeds: (userId: string, results = 100) => d<ThingSpeakFeed>(api.get(`/thingspeak/${userId}/feeds`, { params: { results } })),
 };

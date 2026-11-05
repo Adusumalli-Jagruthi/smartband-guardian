@@ -12,8 +12,8 @@ export const Route = createFileRoute("/app/integrations")({
 });
 
 const thingspeak: FieldDef[] = [
-  { key: "channelId", label: "Channel ID", help: "The numeric ID of the ThingSpeak channel your band uploads to.", placeholder: "e.g. 2345678" },
-  { key: "readApiKey", label: "Read API Key", help: "Lets SmartBand read sensor data from the channel.", secret: true, placeholder: "16-character key" },
+  { key: "channelId", label: "Channel ID", help: "Numeric channel ID. Fields: 1 Temp °F, 2 BPM, 3 SpO₂, 4 MPU X, 5 MPU Y, 6 Panic, 7 Lat, 8 Lng.", placeholder: "e.g. 2345678" },
+  { key: "readApiKey", label: "Read API Key", help: "Lets the SmartBand server read the channel every 20 seconds. Stays on the server.", secret: true, placeholder: "16-character key" },
   { key: "writeApiKey", label: "Write API Key", help: "Used by the ESP32 band to upload readings.", secret: true, placeholder: "16-character key" },
 ];
 const telegram: FieldDef[] = [

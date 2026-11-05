@@ -32,7 +32,7 @@ function Health() {
         <Panel title="Heart rate trend" icon={HeartPulse}><HeartChart userId={b.userId} range={range} offline={b.offline} /></Panel>
         <Panel title="Daily steps" icon={Footprints}><StepsChart userId={b.userId} offline={b.offline} /></Panel>
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">SmartBand measures heart rate and motion only. SpO2 and temperature are not supported.</p>
+      <p className="mt-4 text-xs text-muted-foreground">Live temperature and experimental SpO₂ readings appear on your dashboard when ThingSpeak is connected.</p>
     </>
   );
 }

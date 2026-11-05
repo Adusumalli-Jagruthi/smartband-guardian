@@ -5,6 +5,7 @@ import { useBand } from "@/hooks/use-band";
 import { Metric, PageHeader, Panel, StatusPill } from "@/components/states";
 import { MapView } from "@/components/map-view";
 import { AlertList, DeviceStatus, HeartChart, SosButton } from "@/components/widgets";
+import { ThingSpeakPanel } from "@/components/thingspeak-panel";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/kid")({
@@ -19,6 +20,9 @@ function KidDashboard() {
   return (
     <>
       <PageHeader title={`Hi${b.session ? `, ${b.session.name.split(" ")[0]}` : ""} 👋`} subtitle="Heart rate, location, activity and SOS" action={<StatusPill offline={b.offline} hasData={!!r} loading={b.loading} />} />
+      <h2 className="mb-3 font-display text-lg font-semibold">Live band sensors (ThingSpeak)</h2>
+      <ThingSpeakPanel userId={b.userId} sections={["vitals", "motion", "gps", "sos", "charts"]} />
+      <h2 className="mb-3 mt-8 font-display text-lg font-semibold">Activity & alerts</h2>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Metric icon={HeartPulse} label="Heart rate" value={r?.heartRate} unit="BPM" loading={b.loading} offline={b.offline} />
         <Metric icon={Footprints} label="Steps today" value={r?.steps} loading={b.loading} offline={b.offline} />
