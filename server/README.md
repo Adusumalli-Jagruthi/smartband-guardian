@@ -61,3 +61,8 @@ http.POST("{\"heartRate\":78,\"steps\":1200,\"activity\":\"walking\",\"battery\"
 - Set every variable from `.env.example`; `NODE_ENV=production`; `CORS_ORIGIN` = your published frontend URL.
 - Allow the host's IPs in Atlas Network Access. Serve over HTTPS.
 - Run a single instance (the missed-medicine job runs in-process) or move it to a scheduled worker if you scale out.
+
+## ThingSpeak live dashboard
+`GET /api/thingspeak/:userId/feeds?results=100` (JWT; self or an approved linked guardian only) reads fields 1–8:
+1 Temperature °F · 2 Heart rate BPM · 3 SpO₂ % (experimental) · 4 MPU6050 X · 5 MPU6050 Y · 6 Panic (0/1) · 7 Latitude · 8 Longitude.
+Credentials: a guardian saves Channel ID + Read API Key in the app under Integrations (stored encrypted). Telegram (`TELEGRAM_*`) and Groq/NVIDIA keys stay in `server/.env` or the encrypted integration store — never in the browser. Blank fields are returned as `null` and shown as "--"; 0,0 GPS is treated as no fix.

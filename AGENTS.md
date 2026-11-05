@@ -17,3 +17,4 @@
 - AI chat calls only `aiService.chat` (backend proxies NVIDIA NIM + fallback); voice uses browser SpeechRecognition/SpeechSynthesis with visible fallbacks.
 - Integration credentials (ThingSpeak, Telegram, AI provider) go only to the external backend via `integrationConfigService`; the UI shows backend-masked values and never persists secrets client-side.
 - The backend lives in `server/` (Express + Mongoose, CommonJS, not part of the Vite build); its routes must mirror `src/lib/api/services.ts` — change both together.
+- ThingSpeak is read only by the backend (`/api/thingspeak/:userId/feeds`) using the member's or a linked guardian's encrypted config; the UI polls every 20 s via `ThingSpeakPanel` and shows "--" for missing values.
