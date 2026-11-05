@@ -6,6 +6,7 @@ import { Metric, PageHeader, Panel, StatusPill } from "@/components/states";
 import { MapView } from "@/components/map-view";
 import { AlertList, DeviceStatus, HeartChart, SosButton } from "@/components/widgets";
 import { ThingSpeakPanel } from "@/components/thingspeak-panel";
+import { LinkGuardianPanel } from "@/components/link-panels";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/app/kid")({
@@ -35,6 +36,7 @@ function KidDashboard() {
         <Panel title="Heart rate today" icon={HeartPulse} className="lg:col-span-2"><HeartChart userId={b.userId} offline={b.offline} /></Panel>
         <Panel title="History & alerts" icon={History}><AlertList userId={b.userId} limit={5} /></Panel>
       </div>
+      <div className="mt-6"><LinkGuardianPanel /></div>
     </>
   );
 }
